@@ -1,19 +1,31 @@
-INSERT INTO Products (prod_name, prod_price) values ('베베숲 물티슈', 2700);
-INSERT INTO Products (prod_name, prod_price) values ('여름 토퍼', 35180);
-INSERT INTO Products (prod_name, prod_price) values ('페이크 삭스', 860);
-INSERT INTO Products (prod_name, prod_price) values ('우산', 2900);
+INSERT INTO product (id, sku, name, price) VALUES (1, 'keyboard', 'Keyboard', 7.99);
+INSERT INTO product (id, sku, name, price) VALUES (2, 'tv', 'Television', 351.96);
+INSERT INTO product (id, sku, name, price) VALUES (3, 'shirt', 'Shirt', 3.57);
+INSERT INTO product (id, sku, name, price) VALUES (4, 'bed', 'Bed', 131.00);
+INSERT INTO product (id, sku, name, price) VALUES (5, 'cell-phone', 'Cell Phone', 1000.00);
+INSERT INTO product (id, sku, name, price) VALUES (6, 'spoon', 'Spoon', 1.00);
 
-INSERT INTO users (id, email, name, tel) VALUES (1, 'kim@naver.com', 'Kim', '010-0000-0001');
-INSERT INTO users (id, email, name, tel) VALUES (3, 'billie@naver.com', 'Billie Eilish', '010-0000-0003');
-INSERT INTO users (id, email, name, tel) VALUES (4, 'taylor@naver.com', 'Taylor Swift', '010-0000-0004');
-INSERT INTO users (id, email, name, tel) VALUES (5, 'jack@naver.com', 'Jack', '010-0000-0005');
-INSERT INTO users (id, email, name, tel) VALUES (6, 'hong@hanmail.net', '홍길동', '010-0000-0006');
-INSERT INTO users (id, email, name, tel) VALUES (7, 'kang@naver.com', '강감찬', '010-0000-1111');
-INSERT INTO users (id, email, name, tel) VALUES (2, 'janny@naver.com', 'Janny', '010-0000-0002');
+INSERT INTO customer (id, name, birthdate) VALUES (1, 'John Doe', '1960-10-30');
+INSERT INTO customer (id, name, birthdate) VALUES (2, 'Pepito Pérez', '1954-07-15');
+INSERT INTO customer (id, name, birthdate) VALUES (3, 'Cosme Fulanito', '1956-05-12');
 
-insert into student values ('1234', '김고기', 3, 89);
-insert into student values ('2345', '정덮밥', 1, 89);
-insert into student values ('3456', '박찌개', 2, 89);
-insert into student values ('4567', '문초밥', 3, 89);
-insert into student values ('5678', '이족발', 4, 89);
-insert into student values ('6789', '진짬뽕', 2, 89);
+INSERT INTO address (id, street, postal_code) VALUES (1, 'La Habana 4310', '1000');
+INSERT INTO address (id, street, postal_code) VALUES (2, '10 rue Henri Poincaré', '13014');
+INSERT INTO address (id, street, postal_code) VALUES (3, 'Calle Falsa 123', '01102');
+
+INSERT INTO email_address (id, customer_id, address) VALUES (1, 1, 'john.doe@gmail.com');
+INSERT INTO email_address (id, customer_id, address) VALUES (2, 1, 'john.doe@hotmail.com');
+INSERT INTO email_address (id, customer_id, address) VALUES (3, 2, 'pepito@perez.com');
+INSERT INTO email_address (id, customer_id, address) VALUES (4, 3, 'cosme@fulanito.com');
+
+INSERT INTO purchase_order (id, customer_id, order_date) VALUES (1, 2, '2018-01-04');
+INSERT INTO purchase_order (id, customer_id, order_date) VALUES (2, 1, '2018-02-13');
+INSERT INTO purchase_order (id, customer_id, order_date) VALUES (3, 2, '2018-02-25');
+
+INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (1, 1, 1, 10, 79.90);
+INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (2, 1, 2, 2, 703.92);
+INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (3, 1, 3, 7, 24.99);
+INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (4, 2, 4, 2, 262.00);
+INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (5, 2, 5, 15, 15000.00);
+INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (6, 3, 1, 7, 55.93);
+INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (7, 3, 6, 18, 18.00);

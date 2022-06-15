@@ -6,7 +6,7 @@ plugins {
   id 'war'
 }
 
-group = 'com.weni'
+group = 'com.sample'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -27,6 +27,8 @@ ext {
 }
 
 dependencies {
+  implementation 'javax.servlet:jstl'
+  implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -43,8 +45,8 @@ dependencies {
   runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
   annotationProcessor 'org.projectlombok:lombok'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  implementation 'javax.servlet:jstl'
-  implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+  testImplementation 'org.springframework.kafka:spring-kafka-test'
+  testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
   implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 }
 

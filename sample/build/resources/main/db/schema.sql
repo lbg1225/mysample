@@ -1,26 +1,50 @@
 
-DROP TABLE IF EXISTS Products;
-CREATE TABLE Products
-(
-    prod_id     IDENTITY        PRIMARY KEY,
-    prod_name   VARCHAR(255)    NOT NULL,
-    prod_price  INT             NOT NULL
-);
-
-DROP TABLE IF EXISTS users;
-CREATE TABLE users(
+DROP TABLE IF EXISTS Product;
+CREATE TABLE product (
     id IDENTITY PRIMARY KEY,
-    email VARCHAR(30),
-    name VARCHAR(30),
-    tel VARCHAR(30)
+    sku VARCHAR(256),
+    name VARCHAR(256),
+    price DECIMAL(20, 2)
 );
 
-DROP TABLE IF EXISTS student;
-create table student (
-    student_id varchar(30),
-    name varchar(30),
-    school_id int,
-    score int,
-    primary key(student_id, name)
+DROP TABLE IF EXISTS customer;
+CREATE TABLE customer (
+    id IDENTITY PRIMARY KEY,
+    name VARCHAR(256),
+    birthdate DATE
 );
 
+DROP TABLE IF EXISTS address;
+CREATE TABLE address (
+    id INT8 PRIMARY KEY,
+    street VARCHAR(128),
+    postal_code VARCHAR(16),
+    FOREIGN KEY(id) REFERENCES customer(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS email_address;
+CREATE TABLE email_address (
+    id IDENTITY PRIMARY KEY,
+    customer_id INT8,
+    address VARCHAR(128),
+    FOREIGN KEY(customer_id) REFERENCES customer(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS purchase_order;
+CREATE TABLE purchase_order (
+    id IDENTITY PRIMARY KEY,
+    customer_id INT8,
+    order_date DATE,
+    FOREIGN KEY(customer_id) REFERENCES customer(id)
+);
+
+DROP TABLE IF EXISTS item;
+CREATE TABLE item (
+    id IDENTITY PRIMARY KEY,
+    order_id INT8,
+    product_id INT8,
+    quantity INT,
+    total DECIMAL(20, 2),
+    FOREIGN KEY(order_id) REFERENCES purchase_order(id),
+    FOREIGN KEY(product_id) REFERENCES product(id)
+);

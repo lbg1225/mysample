@@ -3,7 +3,7 @@ package com.sample.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sample.domain.Post;
+// import com.sample.domain.Post;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class TestController {
 
-  @RequestMapping("/")
-  public String indexjsp() {
-    return "index"; // 실제 호출 될 /WEB-INF/views/index.jsp
-  }
+  // @RequestMapping("/")
+  // public String indexjsp() {
+  //   return "index"; // 실제 호출 될 /WEB-INF/views/index.jsp
+  // }
 
   /**
    * @ResponseBody 때문에 html형식으로 들어감
