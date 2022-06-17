@@ -6,6 +6,7 @@ FileName=
 Result=
 Orgtable=
 Table=
+TableComment=
 FileTmp=file.tmp
 BuilderTmp=builder.tmp
 Builder=
@@ -49,6 +50,20 @@ SnakeCaseToCamelCase()
 {
     Result=`echo $1 | sed -E 's/[ _-]([a-z])/\U\1/gi;s/^([A-Z])/\l\1/'`
 }
+#----------------------
+# 스네이크 케이스 문자열을 카멜케이스로 변경
+#----------------------
+GetComment()
+{
+    flag=false;
+    for arg in "$@"
+    do 
+	    case $arg in
+		     comment|COMMENT) flag=true ;;
+ 		     *) if [ $flag ] ;	then  Result=`echo // $arg | sed "s/'//g" | sed "s/,//"`; flag=false; fi		;;
+	    esac	
+    done	
+}
 
 ClassAddLine()
 {
@@ -66,6 +81,7 @@ InitParam()
 
 	Builder=""
 	FirstCol=""
+	TableComment=""
 }
    
 #-------------------------------------
@@ -77,7 +93,7 @@ TableProc()
     input=$*
 	
 	InitParam
-	Orgtable=`echo $3 | sed 's/\[dbo\]\.\[//' | sed 's/\](//g'`
+	Orgtable=`echo $3 | sed 's/\[dbo\]\.\[//' | sed 's/\](//g' | sed 's/\`//g'`
 	Tolower $Orgtable
 	SnakeCaseToCamelCase $Result
 	ToupperFirst $Result
@@ -118,7 +134,7 @@ BaseClass()
     ClassAddLine '@NoArgsConstructor(access = AccessLevel.PROTECTED) // AccessLevel.PUBLIC'
     ClassAddLine '@EqualsAndHashCode // (of = {"email","name"}, callSuper = true, onParam = @__(@NonNull))'  
 	ClassAddLine '@ToString //(exclude = "password") // exclude 속성을 사용하면, 특정 필드를 toString() 결과에서 제외'
-	ClassAddLine "public class $ClassName implements Serializable {"
+	ClassAddLine "public class $ClassName implements Serializable { $TableComment"
 }
 
 PrePostFunc()
@@ -174,7 +190,7 @@ BuilderFunc()
 #+-----------------+----------------+-----------------------+
 ColumnProc()
 {
-    orgcol=`echo $1 | sed 's/\[//g' | sed 's/\]//g'`
+    orgcol=`echo $1 | sed 's/\[//g' | sed 's/\]//g' | sed 's/\`//g'`
 	Tolower $orgcol
     SnakeCaseToCamelCase $Result
     col=$Result
@@ -182,8 +198,11 @@ ColumnProc()
 	datatype=$Result
 	javatype=""
 	identity=""
+	GetComment $*
+	comment=$Result
 
 	case $datatype in
+        /\**) 		 echo "----- $datatype" ;;	               # -- For Mysql DB 
 	    *bit*)       javatype="Boolean";;
 	#   *tinyint*)   javatype="short";;   
     #	*smalint*)   javatype="short";;
@@ -201,7 +220,7 @@ ColumnProc()
 		*date*)      Date="T"; javatype="Date" ;;
 		*time*)      Time="T"; javatype="Time" ;;
 		*identity*)  javatype="Long" ; identity="T" ;;         # -- For H2 DB
-        *)           echo "----- $datatype" ;;		
+        *)           echo "----- $datatype" ;;	
 	esac	
 	
 	if [ "$javatype" == "" ]
@@ -238,8 +257,8 @@ ColumnProc()
 	esac
 	
 	echo "    @Column(name = \"$orgcol\", nullable = $nullable)" >> $FileTmp 
-	echo "    private $javatype $col;" >> $FileTmp
-	echo "    private $javatype $col;"
+	echo "    private $javatype $col; $comment" >> $FileTmp
+	echo "    private $javatype $col; $comment"
     echo "" >> $FileTmp
 }
 
@@ -251,7 +270,9 @@ AnalReadLine()
       *CREATE*TABLE*)
 	      TableProc $input 
 		  ;;
-      \)?ON*|\)\;*)                #-- For H2 DB "|\)\;*"
+      \)?ON*|\)*)                #-- For H2 DB "|\)*"
+	      GetComment `echo $* | sed 's/=/ /g' | sed 's/;/ /g'`
+	      TableComment=$Result
 	      BaseClass
 		  BuilderFunc
 		  PrePostFunc

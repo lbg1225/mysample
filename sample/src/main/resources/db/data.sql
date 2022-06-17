@@ -29,3 +29,6 @@ INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (4, 2, 4, 2,
 INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (5, 2, 5, 15, 15000.00);
 INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (6, 3, 1, 7, 55.93);
 INSERT INTO item (id, order_id, product_id, quantity, total) VALUES (7, 3, 6, 18, 18.00);
+
+INSERT INTO COMMON_CODE_DETAIL(CODE,GROUP_CODE,CODE_NAME,DELETE_FLAG) VALUES ( 'T01_G1' , 'T01' , 'TEST01', 0);
+INSERT INTO COMMON_CODE_DETAIL(CODE,GROUP_CODE,CODE_NAME,DELETE_FLAG) VALUES ( 'T01_G2' , 'T01' , 'TEST02', 0);

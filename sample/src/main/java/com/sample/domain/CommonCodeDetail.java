@@ -1,20 +1,22 @@
 package com.sample.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.AccessLevel;
 
-@Getter
-@NoArgsConstructor
-@ToString
 @Entity
+@Table(name="common_code_detail")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // AccessLevel.PUBLIC
+@EqualsAndHashCode // (of = {"email","name"}, callSuper = true, onParam = @__(@NonNull))
+@ToString //(exclude = "password") // exclude 속성을 사용하면, 특정 필드를 toString() 결과에서 제외
 @IdClass(CommonCodeDetailPK.class)
 public class CommonCodeDetail {
     @Id
