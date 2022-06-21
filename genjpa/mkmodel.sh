@@ -129,6 +129,7 @@ SnakeCaseToCamelCase()
 GetComment()
 {
     flag=false;
+	
     for arg in "$@"
     do 
 	    case $arg in
@@ -151,7 +152,7 @@ Initialize()
 }
 
 #--------------------------------------------------------------
-# CREATE TABLE [dbo].[TABLE]( 문자열 처리
+# CREATE TABLE dbo.TABLE( 문자열 처리
 # Class명 및 파일명 생성
 #--------------------------------------------------------------
 TableProc()
@@ -159,7 +160,7 @@ TableProc()
     input=$*
 	
 	InitParam
-	Orgtable=`echo $3 | sed 's/\[dbo\]\.\[//' | sed 's/\](//g' | sed 's/\`//g'`
+	Orgtable=`echo $3 | sed 's/dbo\.//' | sed 's/(//'`
 	Tolower $Orgtable
 	SnakeCaseToCamelCase $Result
 	ToupperFirst $Result
@@ -341,6 +342,7 @@ GetDataType()
 	   smallint*)  Result='Short'                       ;;
 	   bigint*)    Result='Long'                        ;;
 	   int*)       Result='Integer'                     ;;
+	   numeric*)   Result='BigDecimal' ; BigDecimal="T" ;;
 	   decimal*)   Result='BigDecimal' ; BigDecimal="T" ;;
 	   float*)     Result='Float'                       ;;
 	   double*)    Result='Double'                      ;;
@@ -355,6 +357,7 @@ GetDataType()
 	   tinyblob*)  Result='Byte[]'                      ;;
 	   longblob*)  Result='Blob'       ; Blob="T"       ;;
 	   identity*)  Result="Long"                        ;;   # // H2 DB
+	   *) echo xxx
 	esac
 }
 
@@ -461,8 +464,14 @@ ColumnProc()
 	GetComment $param
 	comment=$Result
 
-	#-- 7. Comment
-	GetColSize $2
+	#-- 8. ColSize
+	if [ `echo $2 | grep numeric | wc -l` -eq 1 ]
+	then
+	    GetColSize $2$3   
+    else
+	    GetColSize $2
+	fi
+	
 	colsize=$Result
 
 	if [ "$javatype" != "" ]
@@ -583,7 +592,7 @@ GenModel()
 #--------------------------------------------------------------
 AnalReadLine()
 {
-   input=$*
+   input=`echo $* | sed 's/\[//g' | sed 's/\]//g' | sed 's/\`//g'`
    
    case $input in  
       /\**|--*|"DROP TABLE*"|"SET *"|"GO"|FOREIGN*)   
