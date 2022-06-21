@@ -1,0 +1,43 @@
+    @Id //  Date
+    @Column(name = "rcpdt", nullable = false)
+    private Date rcpdt; // 접수일자
+
+    @Column(name = "rcp_hhmm", nullable = false)
+    private String rcpHhmm; // 접수시분
+
+    @Column(name = "rcp_seqno", nullable = false)
+    private BigDecimal rcpSeqno; // 접수순번
+
+    @Column(name = "adt_bsns_dsccd", nullable = true)
+    private String adtBsnsDsccd; // 감사업무식별코드
+
+    @Column(name = "adt_stfno", nullable = true)
+    private String adtStfno; // 감사직원번호
+
+    @Column(name = "plyno", nullable = true)
+    private String plyno; // 증권번호
+
+    @Column(name = "ctm_rsno", nullable = true)
+    private String ctmRsno; // 고객주민번호
+
+    @Column(name = "dh_stfno", nullable = true)
+    private String dhStfno; // 취급직원번호
+
+    @Column(name = "bjamt", nullable = true)
+    private BigDecimal bjamt; // 대상금액
+
+    @Column(name = "impdg_poct", nullable = true)
+    private BigDecimal impdgPoct; // 중요도점수
+
+    @Column(name = "adt_rcp_link_flgcd", nullable = true)
+    private String adtRcpLinkFlgcd; // 감사접수연결구분코드
+
+    @Column(name = "link_kyvl", nullable = true)
+    private String linkKyvl; // 연결키값
+
+    @Column(name = "cr_stfno", nullable = true)
+    private String crStfno; // 발생직원번호
+
+    @Column(name = "cr_spc", nullable = true)
+    private String crSpc; // 발생내역
+
